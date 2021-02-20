@@ -32,7 +32,7 @@ jobs:
         pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev wget
     - name: Clone source code
       run: |
-        git clone git@gitlab.com:sileshn/ManjaroWSL.git
+        git clone git@github.com/sileshn/ManjaroWSL.git
     - name: Build Firmware
       env:
         TNAME: NEWIFI3
@@ -40,6 +40,7 @@ jobs:
         cd ManjaroWSL
         make
         make clean
+        sudo mkdir /opt/images
         sudo mv -f Manjaro.zip /opt/images/
     - name : Upload packages
       uses: actions/upload-artifact@master
