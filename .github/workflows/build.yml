@@ -16,7 +16,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
@@ -28,31 +28,16 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get -y install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd fakeroot \
-        cpio git
-        sudo apt-get update
-        sudo apt-get install \
-        apt-transport-https \
-        ca-certificates \
-        curl \
-        gnupg-agent \
-        software-properties-common
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-        sudo add-apt-repository \
-        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-        $(lsb_release -cs) \
-        stable"
-        sudo apt-get update
-        sudo apt-get install docker-ce docker-ce-cli containerd.io
+        cpio git make
     - name: Clone source code
       run: |
-        git clone https://github.com/sileshn/ManjaroWSL.git
+        git clone https://github.com/sileshn/ManjaroWSL.git /opt/ManjaroWSL
     - name: Build Firmware
       env:
         TNAME: NEWIFI3
       run: |
-        cd ManjaroWSL
-        make
-        make clean
+        cd /opt/ManjaroWSL
+        sudo make
         sudo mkdir /opt/images
         sudo mv -f Manjaro.zip /opt/images/
     - name : Upload packages
